@@ -10,16 +10,6 @@ dotenv.config({
 
 
 
-const user = await prisma.User.create({
-    data: {
-        name:'shantanu gote' ,
-        email:'email@email.com',
-        password:"shantanu",
-        created_at:date
-    
-
-    }
-  })
 
 
 

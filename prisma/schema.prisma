@@ -14,25 +14,62 @@ datasource db {
 }
 
 model User {
-  id         Int        @id @default(autoincrement())
-  email      String     @unique
-  name       String?
-  password   String?
-  created_at String
+  id         Int         @id @default(autoincrement())
+  email      String      @unique
+  name       String
+  password   String
+  created_at DateTime    @default(now())
   job        JobSheet[]
-  invtroey 
+  inventory  inventory[]
+
+  Sales Sales[]
 }
 
 model JobSheet {
-  jobID Int @id @default(autoincrement()) // Unique ID for each job sheet
+  jobID           Int     @id @default(autoincrement()) // Unique ID for each job sheet
+  cutomer_name    String
+  cutomer_Contact String
+  cutomer_email   String?
 
-  deviceType         String // Type of device (e.g., Mobile, Laptop)
+  device_Type        String // Type of device (e.g., Mobile, Laptop)
+  device_name        String? // Type of device (e.g., Mobile, Laptop)'
+  device_IMIE        BigInt? // Type of device (e.g., Mobile, Laptop)
   problemDescription String // Description of the device's issue
   serviceCharge      Float // Charge for the repair service
-  jobStatus          String   @default("Pending") // Status of the job (Pending, In Progress, Completed)
-  dateCreated        DateTime @default(now()) // Date when the job was created
-  dateCompleted      String? // Date when the job was completed (if applicable)
+  jobStatus          String    @default("Pending") // Status of the job (Pending, In Progress, Completed)
+  dateCreated        DateTime  @default(now()) // Date when the job was created
+  dateCompleted      DateTime? // Date when the job was completed (if applicable)
 
-  User   User? @relation(fields: [userId], references: [id])
-  userId Int?
+  User   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  sales Sales[] @relation("SalesJobSheets") // Tracks job sheets linked to sales
+}
+
+model inventory {
+  product_id      Int     @id @default(autoincrement())
+  product_name    String
+  product_barcode String?
+  product_price   Float
+  product_stock   Int
+
+  User   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  sales Sales[] @relation("SalesProducts") // Tracks products linked to sales
+
+  @@index([product_id])
+}
+
+model Sales {
+  saleID      Int      @id @default(autoincrement()) // Unique ID for each sale
+  saleType    String // "Service" or "Accessory"
+  description String? // Description of the sale (optional for services)
+  totalAmount Float // Total amount for the sale
+  saleDate    DateTime @default(now()) // Date when the sale occurred
+  userId      Int // Links Sales to the User who made it
+  User        User     @relation(fields: [userId], references: [id])
+
+  products  inventory[] @relation("SalesProducts") // Links Sales to multiple products
+  jobSheets JobSheet[]  @relation("SalesJobSheets") // Links Sales to multiple job sheets
 }

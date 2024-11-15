@@ -9,4 +9,3 @@ A web-based application designed to streamline the management of service centers
 - **Technician Assignment:** Assign technicians to jobs based on availability and expertise.
 - **Customer Management:** Maintain records of customer details and service history.
 - **Dashboard:** View real-time status updates and performance analytics.
-
