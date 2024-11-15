@@ -9,7 +9,14 @@ dotenv.config({
 })
 
 
-
+// const user = await prisma.user.create({
+//     data: {
+//         email:"santanugote82@gmail.com",
+//         name:"shantanu gote",    
+//         password:"123456",
+       
+//     },
+//   })
 
 
 
