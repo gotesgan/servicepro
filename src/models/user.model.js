@@ -1,8 +1,61 @@
-const registerUser =  async (req, res) => {
-    return res.status(200).json(
-        {
-            message:"ok"
+import { app } from "../app.js";
+import bcrypt from 'bcrypt';
+import { prisma } from '../db/db.js';
+let salt = Number(`${process.env.saltRounds}`) 
+console.log(salt)
+const registerUser = async (req, res) => {
+    // console.log(req.body)
+    const { name, email, password } = req.body;
+    let user
+
+    try {
+         user = await prisma.user.findUnique({
+            where: {
+                email: `${email}`,
+            },
+        });
+    } catch (error) {
+        console.log(error);
+    } finally {
+        console.log(user);
+
+        if (user===null) {
+            function isValidEmail(email) {
+                var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                return regex.test(email);
+            }
+
+            if (isValidEmail(email) === true) {
+               let Nname =name.toLowerCase();
+                const userPassword = password;
+                const Epassword = await bcrypt.hashSync(userPassword,salt);
+                
+                try {
+                    const user = await prisma.user.create({
+                        data: {
+                            name:`${Nname}`,
+                            email:`${email}`,
+                            password:`${Epassword}`
+                        },
+                      })
+                      
+                    
+                } catch (error) {
+                    console.log(error,"user ceration filed")
+                }
+                res.send(200).json({
+                    message: "User created Succesfuly",
+                })
+                console.log(user)
+            } else {
+                res.send(400).json({
+                    message: "invalid email id",
+                });
+            }
         }
-    )
-}
-export {registerUser}
+    }
+
+    res.send("200");
+};
+
+export { registerUser };
