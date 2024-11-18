@@ -1,5 +1,4 @@
-const DBname = 'ErpDB'
-export default{
-    DBname
-}
-
+const DBname = "ErpDB";
+export default {
+  DBname,
+};
