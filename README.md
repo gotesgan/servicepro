@@ -65,3 +65,26 @@ The `Sales` model tracks transactions for services or product sales.
 ### Many-to-Many Relationships:
 - `Sales ↔ Inventory`: A single sale can involve multiple products, and each product can be part of multiple sales.
 - `Sales ↔ JobSheet`: A single sale can involve multiple jobs, and each job can be part of multiple sales.
+# User Registration Module
+
+## Overview
+This module handles user registration by validating input data, encrypting the password, and storing user details in a database.
+
+## Key Features
+- **Validation**: Checks for duplicate email addresses in the database and verifies the validity of the email format.
+- **Password Encryption**: Utilizes `bcrypt` to securely hash user passwords with a configurable salt.
+- **Database Integration**: Uses Prisma ORM to interact with the database for user data creation and retrieval.
+
+## Workflow
+1. **Request Handling**: The `registerUser` function accepts a request with `name`, `email`, and `password` fields.
+2. **User Lookup**: Searches the database for an existing user with the provided email.
+3. **Email Validation**: Validates the email format using a regex.
+4. **Password Hashing**: Hashes the password using `bcrypt` and a salt value retrieved from environment variables.
+5. **User Creation**: If no existing user is found and the email is valid, creates a new user entry in the database.
+6. **Response**: Returns appropriate HTTP status codes and messages indicating success or failure.
+
+## Error Handling
+- Logs errors encountered during database operations.
+- Returns HTTP `400` for invalid email addresses.
+- Provides fallback for unhandled exceptions with logs.
+

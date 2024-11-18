@@ -1,13 +1,8 @@
-import express from 'express'
+import express from "express";
 
-const app = express()
+const app = express();
 
-
-app.use(express.urlencoded({extended: true}))
-
-
-
-
+app.use(express.urlencoded({ extended: true }));
 
 // app.use(session
 //   ({
@@ -15,14 +10,11 @@ app.use(express.urlencoded({extended: true}))
 //   })
 //   )
 
-
-
 app.listen(process.env.PORT, () => {
-    console.log(`Example app listening on port ${process.env.PORT}`)
-  })
-  export {app}
+  console.log(`Example app listening on port ${process.env.PORT}`);
+});
+export { app };
 
+import USerrouter from "./routes/user.route.js";
 
-  import USerrouter from './routes/user.route.js'
-
-app.use ("/users",USerrouter)
+app.use("/users", USerrouter);
