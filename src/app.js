@@ -2,8 +2,7 @@ import express from "express";
 import session from "express-session";
 import passport from "passport";
 import flash from "express-flash";
-
-
+import { passportConfig } from "./UTILS/passportConfig.js";
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
@@ -13,7 +12,6 @@ app.use(
     secret: process.env.secret,
     resave: false,
     saveUninitialized: false,
-    cookie: true,
   })
 );
 app.use(passport.initialize());

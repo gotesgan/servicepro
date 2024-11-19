@@ -1,10 +1,8 @@
 import { app } from "../app.js";
 import bcrypt from "bcrypt";
 import { prisma } from "../db/db.js";
-import { init } from "../UTILS/pasport.config.js";
-import passport, { Passport } from "passport";
-
-
+import { Strategy } from "passport-local";
+import passport from "passport";
 
 let salt = Number(`${process.env.saltRounds}`);
 console.log(salt);
@@ -62,27 +60,14 @@ const registerUser = async (req, res) => {
   res.send("200");
 };
 
-init(passport, async (email) => {
-  user = await prisma.user.findUnique({
-    where: {
-      email: email,
-    },
-  });
-  async (id) => {
-    user = await prisma.user.findUnique({
-      where: {
-        id: id,
-      },
-    });
-    return user;
-  };
-});
-
 const loginrUser = passport.authenticate("local", {
   successRedirect: "/",
-  failureRedirect: "/login",
+  failureRedirect: "/users/login",
   successFlash: true,
   failureFlash: true,
+  if(successRedirect) {
+    res.send(200);
+  },
 });
 export { loginrUser };
 
