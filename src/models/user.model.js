@@ -8,7 +8,7 @@ let salt = Number(`${process.env.saltRounds}`);
 console.log(salt);
 const registerUser = async (req, res) => {
   // console.log(req.body)
-  const { name, email, password } = req.body;
+  const { name, email, password, phone } = req.body;
   let user;
 
   try {
@@ -40,24 +40,25 @@ const registerUser = async (req, res) => {
               name: `${Nname}`,
               email: `${email}`,
               password: `${Epassword}`,
+              phone_number: `${phone}`,
             },
           });
         } catch (error) {
           console.log(error, "user ceration filed");
         }
-        res.send(200).json({
+        res.sendStatus(200).json({
           message: "User created Succesfuly",
         });
         console.log(user);
       } else {
-        res.send(400).json({
+        res.sendStatus(400).json({
           message: "invalid email id",
         });
       }
     }
   }
 
-  res.send("200");
+  res.sendStatus("200");
 };
 
 const loginrUser = passport.authenticate("local", {
@@ -69,6 +70,17 @@ const loginrUser = passport.authenticate("local", {
     res.send(200);
   },
 });
+
+const logoutUser = function (req, res, next) {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("user/register");
+  });
+};
+
+export { logoutUser };
 export { loginrUser };
 
 export { registerUser };
