@@ -18,6 +18,8 @@ model User {
   email      String      @unique
   name       String
   password   String
+ phone_number  String @unique
+ sessionID   String?
   created_at DateTime    @default(now())
   job        JobSheet[]
   inventory  inventory[]
@@ -35,7 +37,7 @@ model JobSheet {
   device_name        String? // Type of device (e.g., Mobile, Laptop)'
   device_IMIE        BigInt? // Type of device (e.g., Mobile, Laptop)
   problemDescription String // Description of the device's issue
-  serviceCharge      Float // Charge for the repair service
+  serviceCharge      String // Charge for the repair service
   jobStatus          String    @default("Pending") // Status of the job (Pending, In Progress, Completed)
   dateCreated        DateTime  @default(now()) // Date when the job was created
   dateCompleted      DateTime? // Date when the job was completed (if applicable)
