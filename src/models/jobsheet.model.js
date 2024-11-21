@@ -72,6 +72,7 @@ const Updatejobsheet = async (req, res) => {
             },
             data: {
               jobStatus: "Pending",
+              dateCompleted: null,
             },
           });
           console.log(job.jobStatus);
@@ -94,7 +95,49 @@ const Updatejobsheet = async (req, res) => {
   res.status(200).json({ message: "job updated succuesfuly" });
   return;
 };
+const Editjobsheet = async (req, res) => {
+  let id = Number(req.query.id);
+  if (!id) {
+    res.status(400).json({ message: "Invalid Job ID" });
+    console.log("not pressnt");
+    return;
+  }
+
+  const {
+    cutomer_name,
+    cutomer_Contact,
+    cutomer_email,
+    problemDescription,
+    serviceCharge,
+  } = req.body;
+
+  //check if data is presnt or not
+  const updateData = {
+    cutomer_name: cutomer_name || undefined,
+    cutomer_Contact: cutomer_Contact || undefined,
+    problemDescription: problemDescription || undefined,
+    serviceCharge: serviceCharge || undefined,
+  };
+  try {
+    const update = await prisma.jobSheet.update({
+      where: {
+        jobID: id,
+      },
+      data: updateData,
+    });
+    console.log(update);
+    res.status(200).json({
+      message: "update successful",
+    });
+    return;
+  } catch (error) {
+    console.log(error);
+    res.status(500);
+    return;
+  }
+  return;
+};
 
 export { Updatejobsheet };
-
+export { Editjobsheet };
 export { CreateJobsheet };
