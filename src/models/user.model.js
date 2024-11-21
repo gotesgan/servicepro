@@ -45,6 +45,7 @@ const registerUser = async (req, res) => {
           });
         } catch (error) {
           console.log(error, "user ceration filed");
+          return;
         }
         res.sendStatus(200).json({
           message: "User created Succesfuly",
@@ -54,6 +55,7 @@ const registerUser = async (req, res) => {
         res.sendStatus(400).json({
           message: "invalid email id",
         });
+        return;
       }
     }
   }
