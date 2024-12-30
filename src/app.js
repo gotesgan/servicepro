@@ -21,7 +21,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-
+console.log("hello")
 app.listen(process.env.PORT, () => {
   console.log(`Example app listening on port ${process.env.PORT}`);
 });
